@@ -1,0 +1,344 @@
+﻿@{
+    ViewBag.Title = "Create Quote Request Route Index";
+    Layout = "~/Views/Shared/_QuoteMuleAuthenticatedLayout.cshtml";
+}
+
+
+
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap">
+
+
+    <input type="hidden" id="PAGECOMPANY" value=@Model._CompanyId />
+    <input type="hidden" id="STATUSID" value="" />
+
+
+    <!-- NAVIGATION -->
+    <div class="row" ng-controller="mainStateController as main" ng-cloak>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3></h3>
+                    <div class="wizard">
+                        <ul class="steps_4 anchor">
+                            <li ng-repeat="item in main.statusObjectState">
+                                <!--classes: selected, disabled, done ng-class="{done: controller.x > 1, selected: controller.x == 1}"-->
+                                <a href="" class="{{item.statusClass}}" isdone="0" rel="1" ng-click="main.setSelectedTab(tab)">
+                                    <span class="stepNumber">{{item.stepNumb}}</span>
+                                    <span class="stepDesc">{{item.stepStatus}}<br><small>{{item.stepTitle}}</small></span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+
+
+                        <div class="stepContainer" style="height: 54px;">
+                            <div ng-if="main.thisStatus === 1" id="step-1" class="content" style="">
+                                <h4>Step 1</h4>
+                                <p>Create a draft for your quote request by adding items in the appropriate category and selecting the required quantity amount. Continue by Publishing the bid request.</p>
+                            </div>
+                            <div ng-if="main.thisStatus === 2" id="step-2" class="content" style="">
+                                <h4>Step 2</h4>
+                                <p>Select a supplier and press review to create a contact.</p>
+                            </div><div ng-if="main.thisStatus === 3" id="step-3" class="content" style="">
+                                <h4>Step 3 </h4>
+                                <p>Finalize the quote request by pressing complete.</p>
+                            </div>
+                            <div ng-if="main.thisStatus === 4" id="step-4" class="content" style="">
+                                <h4></h4>
+                                <p>Your Quote Request is complete! Thank you for using Quotemule.</p>
+                            </div>
+                        </div>
+
+
+
+                        <!--State Wizard Buttons Begin-->
+                        <div ng-if="main.companyRole == 1">
+                            <div class="actionBar" ng-if="main.thisStatus === 1">
+                                <a ng-click="main.deleteStatus(1)" class="btn btn-default pull-left">Delete</a><a class="btn btn-default pull-right" ng-click="main.setPublish(2)">Publish</a>
+                            </div>
+
+
+                            <div class="actionBar" ng-if="main.thisStatus === 2">
+                                <a class="btn btn-default pull-left" ng-click="main.withDraw(6)">Withdraw</a><a class="btn btn-default pull-right" ng-click="main.setReview(3)">Review</a>
+                            </div>
+
+                            <div class="actionBar" ng-if="main.thisStatus === 3">
+                                <a class="btn btn-default pull-left" ng-click="main.cancel(0)">Cancel</a><a class="btn btn-default" ng-click="main.setRepublish(4)">Republish</a><a class="btn btn-default pull-right" ng-click="main.setComplete(7)">Complete</a>
+                            </div>
+                            <div class="actionBar" ng-if="main.thisStatus === 4">
+
+                            </div>
+                        </div>
+                        <!--State Wizard Buttons End-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-view ng-cloak></div>
+
+
+
+
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="message-box message-box-danger animated fadeIn" id="message-box-danger">
+        <div class="mb-container">
+            <div class="mb-middle">
+                <div class="mb-title"><span class="fa fa-times"></span>Are you sure?</div>
+                <div class="mb-content">
+                    <p>Are you sure you want to delete this Quote Request?</p>
+                </div>
+                <div class="mb-footer">
+                    <button class="btn btn-success pull-right mb-control-close" ng-click="qrc.deleteQr()">Delete</button>
+                    <button class="btn btn-default mb-control-close">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <input type="hidden" id="quote_request_id" value="@Model.Item" />
+</div>
+
+<!--
+============================================================================================
+
+     - MODAL EDIT FORM
+
+============================================================================================-->
+@*<div class="row">
+        <div class="modal fade modal-qr-media">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h3><span class="fa fa-pencil"></span> Upload Files </h3>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="col-md-9 col-xs-7 block-full-width">
+                            <div class="panel-body" id="drop-zone-body">
+                                <div id="success-alert" class="alert alert-info fade in">
+                                    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    Drag &amp; drop upload with image preview
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label" id="numberpic"></label>
+                                    <div class="controls text-center">
+
+
+                                        <div id="dropzone">
+
+
+                                                Media : action="/api/Media/upload"
+
+
+
+                                            <form action="/api/media/upload" class="dropzone text-center" id="quoterequest-dropzone">
+                                                <div class="fallback">
+                                                    <input name="file" type="file" multiple="" /><br />
+                                                </div>
+
+                                                <div class="dz-message" data-dz-message>
+                                                    <h1><i class="fa fa-arrow-circle-o-up"></i></h1>
+                                                    <h2>Upload Files</h2>
+                                                    <h3>(drop files or click)</h3>
+                                                </div>
+
+                                            </form>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-rounded" id="modalSaveBtn">Save</button>
+                        <button type="button" class="btn btn-secondary btn-rounded" id="modalCloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>*@
+
+<!-- %%%%%%%%%%%%%%%%%%%%%%%%%%% Active QRs & Quote Request Timeline Row %%%%%%%%%%%%%%%%%%%%%%% -->
+<div class="row">
+    @{
+        if (Model._CompanyType == 1)
+        {
+            <!-- Quote Requests Block -->
+            <div class="col-md-6">
+                @Html.Partial("_QuoteRequestTableWidget")
+            </div>
+            <!-- END Quote Requests Block -->
+        }
+    }
+
+    @{
+        if (Model._CompanyType == 2)
+        {
+            <!-- Bids Block -->
+            <div class="col-md-6">
+                @Html.Partial("_BidTableWidget")
+            </div>
+            <!-- END Bids Block -->
+        }
+
+    }
+
+
+
+
+    <div class="col-md-6">
+
+        <!-- Timeline Block -->
+
+        <h3>Activities</h3>
+        <!-- START PAGE CONTENT WRAPPER -->
+        <div class="page-content-wrap col-md-6">
+            @Html.Partial("_TimelineQuoteRequestNG")
+        </div>
+
+        <!-- END Timeline Block -->
+    </div>
+
+</div>
+
+
+<!--
+
+============================================================================================
+
+     - PAGE SCRIPT REFERENCES
+
+============================================================================================
+
+-->
+
+
+@section pageInItScripts {
+
+
+    <script src="~/Scripts/dropzonejs/dropzone.js"></script>
+    <script src="~/Scripts/bower_components/angular-dropzone/lib/angular-dropzone.js"></script>
+    <script src="~/Scripts/app/Modules/sabio.module.ngDropzone.js"></script>
+
+    <script src="~/Scripts/bower_components/chosen/chosen.jquery.js"></script>
+    <script src="~/Scripts/bower_components/angular-chosen-localytics/dist/angular-chosen.min.js"></script>
+    <script src="~/Scripts/app/Modules/sabio.module.ngChosen.js"></script>
+    <script src="~/Scripts/resources/mf.js"></script>
+    <script src="~/Scripts/resources/QuoteRequestEstimations.js"></script>
+
+}
+
+
+
+@section scripts {
+
+
+    <!-- END PAGE CONTENT WRAPPER -->
+
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/Theme/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/Theme/bootstrap-select.js"></script>
+    <script src="~/Scripts/Theme/icheck.min.js"></script>
+    <script src="~/Scripts/Theme/jquery.mCustomScrollbar.min.js"></script>
+    <script src="~/Scripts/Theme/jquery.noty.js"></script>
+    <script src="~/Scripts/Theme/topCenter.js"></script>
+    <script src="~/Scripts/Theme/default.js"></script>
+    <script src="~/Scripts/Theme/jquery.validate.js"></script>
+    <script src="~/Scripts/sabio.services.QuoteRequests.js"></script>
+    <script src="~/Scripts/sabio.services.addresses.js"></script>
+    <script src="~/Scripts/sabio.services.timeline.js"></script>
+    <script src="~/Scripts/sabio.services.quotes.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+
+    <!--ANGULAR QR Scripts-->
+    <!-- Angular Scripts for States Wizard-->
+    <!--State Machine Controller-->
+    <script src="~/Scripts/app/Quotes/Services/quoteService.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Services/QRItemsMediaService.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Services/QRServiceFactory.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Services/QRItemServiceFactory.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Services/QRAddressServiceFactory.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Controllers/QRMainController.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Controllers/QRItemEditModalController.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Controllers/AddProjectSiteModalController.js"></script>
+    <script src="~/Scripts/app/QuoteRequestTable/Controllers/QuoteRequestTableController.js"></script>
+    <script src="~/Scripts/Timeline/timelineQuoteRequestNGservice.js"></script>
+    <script src="~/Scripts/Timeline/timelineQuoteRequestNGcontroller.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Controllers/QRItemDropZoneModalController.js"></script>
+
+    <!--NG ROUTE for state wizard-->
+    <script src="~/Scripts/app/QuoteRequests/statemachine.config.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Controllers/statemachineRouteController.js"></script>
+    <!--Service Factory-->
+
+    <script src="~/Scripts/app/QuoteRequests/Services/StateMachineFactory.js"></script>
+    <!--Ajax Service -->
+    <script src="~/Scripts/sabio.services.statemachine.js"></script>
+    <!-- Drop Zone Links-->
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/dropzone.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-file-input.js"></script>
+    <script src="~/Scripts/dropzonejs/dropzone.js"></script>
+    <script src="~/Scripts/sabio.services.quoteRequestMedia.js"></script>
+
+    <!--bid services-->
+    <script src="~/Scripts/app/Bids/Services/bidService.js"></script>
+
+    <script src="~/Scripts/app/Bids/Services/notificationService.js"></script>
+
+    <script src="~/Scripts/app/Bids/Controllers/bidController.js"></script>
+
+    <script src="~/Scripts/app/Bids/Controllers/bidModalController.js"></script>
+
+    <script src="~/Scripts/app/Bids/Controllers/retractBidModalController.js"></script>
+
+    <script src="~/Scripts/app/Bids/Controllers/QuoteRequestDetailController.js"></script>
+
+    <script src="~/Scripts/app/Bids/Controllers/viewBidsModalController.js"></script>
+
+    <script src="~/Scripts/app/Addresses/Services/googleMapService.js"></script>
+
+    <script src="~/Scripts/app/Addresses/Services/addressApiService.js"></script>
+
+    <script src="~/Scripts/app/Addresses/Controllers/addressBook.js"></script>
+
+
+    <script src="~/Scripts/sabio.services.addresses.js"></script>
+
+    <script src="~/Scripts/sabio.services.bid.js"></script>
+
+    <script src="~/Scripts/sabio.services.notification.js"></script>
+    <script src="~/Scripts/app/QuoteRequests/Services/qrItemValidate.js"></script>
+
+
+    <!--RELOAD DATA TABLE-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#table_Body').empty();
+
+        });
+
+    </script>
+
+
+}
