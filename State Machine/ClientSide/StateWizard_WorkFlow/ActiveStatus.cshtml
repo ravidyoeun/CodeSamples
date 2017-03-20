@@ -1,0 +1,116 @@
+﻿
+
+@{
+    Layout = null;
+}
+<!-- /ActiveStatus -->
+<div class="col-md-12" ng-controller="bidController as bc" ng-cloak>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Quote Request Items</h3>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" ng-hide="bc.item.companyId == bc.userCompanyId">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th ng-if="bc.QuoteRequestStatusId == '2'">Actions</th>
+                        <th ng-if="bc.QuoteRequestStatusId == '3'">Bid Status</th>
+                        <th>Name</th>
+                        <th>Estimated Costs</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="qri in bc.item.quoteRequestItems">
+                        <td>{{$index + 1}}</td>
+                        <td ng-if="bc.QuoteRequestStatusId == '2'">
+                            <button type="button" class="btn btn-success" style="display: block; width: 125px; margin: 5px" ng-click="bc.openBidModal(qri)" ng-hide="qri.bidList">Register Bid</button>
+                            <button type="button" class="btn btn-primary" style="display: block; width: 125px; margin: 5px; " ng-click="bc.openRetractBidModal(qri.bidList[0].bidId)" ng-show="qri.bidList">Retract Bid</button>
+                        </td>
+                        <td ng-if="bc.QuoteRequestStatusId == '3'">
+                            <div ng-if="qri.bidList[0].bidStatus == 0"><b>Canceled</b></div>
+                            <div ng-if="qri.bidList[0].bidStatus == 1"><b>Active</b></div>
+                            <div ng-if="qri.bidList[0].bidStatus == 2"><b>Pending</b></div>
+                            <div ng-if="qri.bidList[0].bidStatus == 3"><b>Accepted</b></div>
+                            <div ng-if="qri.bidList[0].bidStatus == 4"><b>Declined</b></div>
+                            <div ng-if="qri.bidList[0].bidStatus == 5"><b>Completed</b></div>
+                            <div ng-if="qri.bidList[0].bidStatus == 6"><b>Withdrawn</b></div>
+                            <div ng-if="qri.bidList[0].bidStatus == null"><b>No Bid Submitted</b></div>
+                        </td>
+                        <td>
+                            <div>
+                                {{qri.name}}
+                            </div>
+                            <br />
+                            <div ng-show="qri.bidList" style="outline-style: solid">
+                                <h6><u><bold>Your Bid</bold></u></h6>
+                                <p>Bid Amount: {{qri.bidList[0].amount | currency}}</p>
+                                <p>Shipping Address: {{qri.bidList[0].address1}}, {{qri.bidList[0].city}}, {{qri.bidList[0].state}} {{qri.bidList[0].zipCode}}</p>
+                                <p>
+                                    <div ng-if="qri.bidList[0].bidStatus == 0">Bid State: Canceled</div>
+                                    <div ng-if="qri.bidList[0].bidStatus == 1">Bid State: Active</div>
+                                    <div ng-if="qri.bidList[0].bidStatus == 2">Bid State: Pending</div>
+                                    <div ng-if="qri.bidList[0].bidStatus == 3">Bid State: Accepted</div>
+                                    <div ng-if="qri.bidList[0].bidStatus == 4">Bid State: Declined</div>
+                                    <div ng-if="qri.bidList[0].bidStatus == 5">Bid State: Completed</div>
+                                    <div ng-if="qri.bidList[0].bidStatus == 6">Bid State: Withdrawn</div>
+                                </p>
+                                <p>
+                                    Bid Expiration Date: {{qri.bidList[0].expirationDate | date : 'MM/dd/yyyy'}}
+                                </p>
+                            </div>
+                        </td>
+                        <td>
+                            <div ng-if="qri.estimation == 1">$10,000 - $50,000</div>
+                            <div ng-if="qri.estimation == 2">$50,000 - $100,000</div>
+                            <div ng-if="qri.estimation == 3">$100,000 - $250,000</div>
+                            <div ng-if="qri.estimation == 4">$250,000 -$500,000</div>
+                            <div ng-if="qri.estimation == 5">$500,000 - $1M</div>
+                            <div ng-if="qri.estimation == 6">$1M - $2M</div>
+                            <div ng-if="qri.estimation == 7">$2M - $5M</div>
+                            <div ng-if="qri.estimation == 8">$5M - $10M</div>
+                        </td>
+                        <td>{{bc.item.quoteRequestDueDate | date : 'MM/dd/yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table class="table table-bordered" ng-show="bc.item.companyId == bc.userCompanyId">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Action</th>
+                        <th>Name</th>
+                        <th>Esimation Costs</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="qri in bc.item.quoteRequestItems">
+                        <td>{{$index + 1}}</td>
+                        <td>
+                            <button type="button" class="btn btn-info accordion" style="display: block; width: 125px; margin: 5px" ng-click="bc.openViewBidsModal(qri.bidList)">View Bids</button>
+
+                        </td>
+                        <td>{{qri.name}}</td>
+                        <td>
+                            <div ng-if="qri.estimation == 1">$10,000 - $50,000</div>
+                            <div ng-if="qri.estimation == 2">$50,000 - $100,000</div>
+                            <div ng-if="qri.estimation == 3">$100,000 - $250,000</div>
+                            <div ng-if="qri.estimation == 4">$250,000 -$500,000</div>
+                            <div ng-if="qri.estimation == 5">$500,000 - $1M</div>
+                            <div ng-if="qri.estimation == 6">$1M - $2M</div>
+                            <div ng-if="qri.estimation == 7">$2M - $5M</div>
+                            <div ng-if="qri.estimation == 8">$5M - $10M</div>
+                        </td>
+                        <td>{{bc.item.quoteRequestDueDate | date : 'MM/dd/yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>

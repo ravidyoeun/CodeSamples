@@ -1,0 +1,486 @@
+﻿
+
+@{
+	Layout = null;
+}
+
+<!-- /DraftStatus -->
+<div class="col-md-12" ng-controller="quoterequestController as qrc" ng-cloak>
+	<div class="panel panel-default">
+		<div class="panel-body">
+		 
+			<div class="col-md-6">
+				<form role="form" class="form-horizontal" name="editQrForm" @*ng-submit="qrc.updateQr(quoteRequestData)"*@ novalidate>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Update Quote Request</h3>
+						</div>
+						<div class="panel-body">
+							<!-- Used to create space within the form -->
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">Name:</label>
+							<div class="col-md-8">
+								<div class="input-group" ng-class="{ 'has-error': editQrForm.qrNameUpdate.$invalid && !editQrForm.qrNameUpdate.$pristine }">
+									<span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+									<input type="text" name="qrNameUpdate" class="form-control" id="quoteRequest_Name" ng-model="qrc.quoteRequestData.name" />
+									<p ng-show="editQrForm.qrNameUpdate.$invalid && !editQrForm.qrNameUpdate.$pristine" class="help-block">Input is required</p>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">Project site:</label>
+							<div class="col-md-8">
+								<select class="form-control" name="qraddress" chosen ng-model="qrc.siteAddress" ng-options="siteadd.addressId as siteadd.address1 + ', ' + siteadd.city + ', ' + siteadd.state + '. ' + siteadd.zipCode for siteadd in qrc.addressList" required>
+									<option value=""></option>
+								</select>
+								<span class="help-block" ng-show="editqrform.qraddress.$error.required">Select an address.</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label"></label>
+							<div class="col-md-8">
+								<button class="btn btn-primary" ng-click="qrc.openAddProjectSiteModal()"> Add address </button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">Due Date:</label>
+							<div class="col-md-8">
+								<div class="input-group">
+									<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+									<input type="text" name="qrdate" id="quote_Request_Duedate" ng-model="qrc.dueDate" class="form-control datepicker" value="03-10-2017" required>
+									
+								</div>
+								<p class="help-block" ng-show="editQrForm.qrdate.$error.required">Select a due date.</p>
+							</div>
+						</div>
+
+						<div class="panel-footer">
+							<button type="button" class="btn btn-danger mb-control" data-box="#message-box-danger" ng-click="qrc.deleteQr(quoteRequestData)">Delete Quote</button>
+							<button class="btn btn-success pull-right" id="edit_QuoteItem" ng-disabled="editQrForm.$invalid" ng-click="qrc.updateQr(quoteRequestData)">Update Quote Request</button>
+							@*button class="btn btn-success pull-right" id="edit_QuoteItem" ng-disabled="editQrForm.$invalid" ng-submit="*@
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<!--
+
+			============================================================================================
+
+				 - QUOTE REQUEST ADD Materials ITEMS FORM
+
+			============================================================================================
+				up
+			-->
+
+			<div class="col-md-6" ng-if="qrc.QrType==1">
+				<form role="form" class="form-horizontal" name="addQrForm" ng-submit="qrc.submitForm(addQrForm.$valid)" novalidate>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Add Materials Items</h3>
+						</div>
+						<div class="panel-body">
+							<!-- Empty div used to create space -->
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">Category:</label>
+							<div class="col-md-9 master-format-list">
+								<select chosen class="form-control" ng-model="qrc.qrItem" ng-options="key as value for (key, value) in qrc.sampleCat track by key" required>
+									<option value=""></option>
+								</select>
+								<span class="help-block" ng-show="addqrform.qrItemName.$error.required">select item</span>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Estimate:</label>
+							<div class="col-md-9">
+								<select chosen class="form-control" ng-model="qrc.estimation" ng-options="key as value for (key, value) in qrc.QuoteEstimation track by key" required>
+									<option value=""></option>
+								</select>
+								<p class="help-block" ng-show="addQrForm.qrItemUnit.$error.required">Unit type is required</p>
+							</div>
+						</div>
+
+
+						<div class="form-group" @*ng-class="{ 'has-error': addQrForm.quantityInput.$invalid && !addQrForm.quantityInput.$pristine }*@>
+							<label class="col-md-3 control-label">Quantity:</label>
+							<div class="col-md-9">
+								<input type="number" name="quantityInput" id="quoteItemQuantity" class="form-control" ng-model="qrc.quantity" required />
+								<p ng-show="addQrForm.quantityInput.$invalid && !addQrForm.quantityInput.$pristine" class="help-block">Input is required</p>
+							</div>
+						</div>
+
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Unit:</label>
+							<div class="col-md-9">
+								<select id="quoteItemUnit" name="qrItemUnit" chosen class="form-control" ng-model="qrc.unit" ng-options="unit.name as unit.name for unit in qrc.sampleUnit track by unit.name" required>
+									<option value=""></option>
+								</select>
+								<p class="help-block" ng-show="addQrForm.qrItemUnit.$error.required">Unit type is required</p>
+							</div>
+						</div>
+
+						<div class="panel-footer">
+							<button type="button" class="btn btn-primary" id="quoteRequestMediaDropzone" ng-click="qrc.openDropZoneQRModal()"> Upload Files </button>
+							<button type="submit" class="btn btn-success pull-right" id="add_QuoteItem" ng-disabled="addQrForm.$invalid" ng-submit="qrc.insertQrItem()">Add Quote Item</button>
+						</div>
+
+					</div>
+				</form>
+			</div>
+
+			<!--
+
+	============================================================================================
+
+		 - QUOTE REQUEST ADD Services ITEMS FORM
+
+	============================================================================================
+		up
+	-->
+
+
+			<div class="col-md-6" ng-if="qrc.QrType==2">
+				<form role="form" class="form-horizontal" name="addQrForm" ng-submit="qrc.submitForm(addQrForm.$valid)" novalidate>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Add Services Items</h3>
+						</div>
+						<div class="panel-body">
+							<!-- Empty div used to create space -->
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">Category:</label>
+							<div class="col-md-9 master-format-list">
+								<select chosen class="form-control" ng-model="qrc.qrItem" ng-options="key as value for (key, value) in qrc.sampleCat track by key" required>
+									<option value=""></option>
+								</select>
+								<span class="help-block" ng-show="addqrform.qrItemName.$error.required">select item</span>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Estimate:</label>
+							<div class="col-md-9">
+								<select chosen class="form-control" ng-model="qrc.estimation" ng-options="key as value for (key, value) in qrc.QuoteEstimation track by key" required>
+									<option value=""></option>
+								</select>
+								<p class="help-block" ng-show="addQrForm.qrItemUnit.$error.required">Unit type is required</p>
+							</div>
+						</div>
+
+
+						<div class="form-group" @*ng-class="{ 'has-error': addQrForm.quantityInput.$invalid && !addQrForm.quantityInput.$pristine }*@>
+							<label class="col-md-3 control-label">Quantity:</label>
+							<div class="col-md-9">
+								<input type="number" name="quantityInput" id="quoteItemQuantity" class="form-control" ng-model="qrc.quantity" required />
+								<p ng-show="addQrForm.quantityInput.$invalid && !addQrForm.quantityInput.$pristine" class="help-block">Input is required</p>
+							</div>
+						</div>
+
+
+						<div class="form-group">
+							<label class="col-md-3 control-label">Unit:</label>
+							<div class="col-md-9">
+								<select id="quoteItemUnit" name="qrItemUnit" chosen class="form-control" ng-model="qrc.unit" ng-options="unit.name as unit.name for unit in qrc.sampleUnit track by unit.name" required>
+									<option value=""></option>
+								</select>
+								<p class="help-block" ng-show="addQrForm.qrItemUnit.$error.required">Unit type is required</p>
+							</div>
+						</div>
+
+						<div class="panel-footer">
+							<button type="button" class="btn btn-primary" id="quoteRequestMediaDropzone" ng-click="qrc.openDropZoneQRModal()"> Upload Files </button>
+							<button type="submit" class="btn btn-success pull-right" id="add_QuoteItem" ng-disabled="addQrForm.$invalid" ng-submit="qrc.insertQrItem()">Add Quote Item</button>
+						</div>
+
+					</div>
+				</form>
+			</div>
+
+
+			<!--
+
+	============================================================================================
+
+		 - QUOTE REQUEST ADD Shipping ITEMS FORM
+
+	============================================================================================
+		
+	-->
+
+
+			<div class="col-md-6" ng-if="qrc.QrType==3">
+				<form role="form" class="form-horizontal" name="addQrForm" ng-submit="qrc.submitForm(addQrForm.$valid)" novalidate>
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title">Add Shipping Items</h3>
+						</div>
+						<div class="panel-body">
+							<!-- Empty div used to create space -->
+						</div>
+						<div class="form-group">
+							<label>Enter Quote Item: </label>
+							<input type="text" class="form-control" ng-model="quoteCon.quoteItemName" />
+						</div>
+						
+
+						<div class="form-group">
+							<label>Enter Quantity: </label>
+							<input type="number" class="form-control" ng-model="quoteCon.quantity" />
+						</div>
+
+
+						<div class="form-group">
+							<label>Enter Shipping Volume(cubic feet): </label>
+							<input type="number" class="form-control" ng-model="quoteCon.volume" />
+						</div>
+
+						<div class="form-group">
+							<label>Enter Shipping Weight(Pounds): </label>
+							<input type="number" class="form-control" ng-model="quoteCon.weight" />
+						</div>
+							
+
+						<div class="form-group">
+							<label>Enter Units: </label>
+							<select id="quoteItemUnit" name="qrItemUnit" chosen class="form-control" ng-model="qrc.unit" ng-options="unit.name as unit.name for unit in qrc.sampleUnit track by unit.name" required>
+								<option value=""></option>
+							</select>
+							@*<p class="help-block" ng-show="addQrForm.qrItemUnit.$error.required">Unit type is required</p>*@
+						</div>
+
+							<div class="panel-footer">
+								<button type="button" class="btn btn-primary" id="quoteRequestMediaDropzone" ng-click="qrc.openDropZoneQRModal()"> Upload Files </button>
+								<button type="submit" class="btn btn-success pull-right" id="add_QuoteItem" ng-disabled="addQrForm.$invalid" ng-submit="qrc.insertQrItem()">Add Quote Item</button>
+							</div>
+
+						</div>
+				</form>
+			</div>
+
+
+			<div class="alert alert-success alert-dismissable " style="display:none" id="success-media-submit">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				<strong>Success!</strong> You have successfully uploaded files.
+			</div>
+
+		</div>
+	</div>
+
+   <!--The Quote Request Tabe -->
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<table class="table dataTables_empty table-striped" ng-cloak>
+
+				Search:
+		  
+				<thead>
+					<tr>
+
+						<th>
+							<a href="#" ng-click="sortType ='name'; sortReverse = !sortReverse">
+								Category Name
+								<span ng-show="sortType == 'name' && !sortReverse" class="fa fa-caret-down"></span>
+								<span ng-show="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+							</a>
+						</th>
+
+						<th>
+							<a href="#" ng-click="sortType ='unit'; sortReverse = !sortReverse">
+								Unit
+								<span ng-show="sortType == 'unit' && !sortReverse" class="fa fa-caret-down"></span>
+								<span ng-show="sortType == 'unit' && sortReverse" class="fa fa-caret-up"></span>
+							</a>
+						</th>
+						<th>
+							<a href="#" ng-click="sortType ='quantity'; sortReverse = !sortReverse">
+								Quantity
+								<span ng-show="sortType == 'quantity' && !sortReverse" class="fa fa-caret-down"></span>
+								<span ng-show="sortType == 'quantity' && sortReverse" class="fa fa-caret-up"></span>
+							</a>
+						</th>
+
+
+						<th>
+							<a href="#" ng-click="sortType ='estimation'; sortReverse = !sortReverse">
+								Estimation
+								<span ng-show="sortType == 'estimation' && !sortReverse" class="fa fa-caret-down"></span>
+								<span ng-show="sortType == 'estimation' && sortReverse" class="fa fa-caret-up"></span>
+							</a>
+						</th>
+
+						<th>Delete</th>
+						<th>Edit</th>
+					</tr>
+				</thead>
+
+				<tbody id="table_Body"></tbody>
+ 
+				<tr ng-repeat="q in qrc.items |
+					orderBy:sortType:sortReverse |
+					filter:qrc.searchName">
+					<td width="45%">{{q.name}}</td>
+					<td>{{q.unit}}</td>
+					<td>{{q.quantity}}</td>
+					<td width="35%">{{q.estimateDescription}}</td>
+
+					<td><button type="button" class="btn btn-outline-danger" ng-click="qrc.deleteQrItem(q)">X</button></td>
+					<td width="5%"><button type="button" class="btn btn-primary" ng-click="qrc.openModal(q)">EDIT</button></td>
+				</tr>
+			</table>
+			<h4 ng-if="qrc.validateQrItem.item === false || qrc.validteQrItem.item === null">There are no items in your quote request.</h4>
+		</div>
+	</div>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+<!--
+
+   ============================================================================================
+
+	   QUOTE REQUEST UPDATE FORM
+
+   ============================================================================================
+
+   -->
+<!--
+<div class="col-md-6" >
+
+	<form class="form-horizontal">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h6 class="panel-title">Update Quote Request</h6>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-3 control-label pull-left">Name:</label>
+				<div class="col-md-8 pull-left">
+					<div class="input-group" ng-class="{ 'has-error': addQrForm.qrNameUpdate.$invalid && !addQrForm.qrNameUpdate.$pristine }">
+						<span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+
+						<input type="text" name="qrNameUpdate" class="form-control" id="quoteRequest_Name" ng-model="qrc.quoteRequestData.name" />
+						<p ng-show="addQrForm.qrNameUpdate.$invalid && !addQrForm.qrNameUpdate.$pristine" class="help-block">Input is required</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">Project site:</label>
+				<div class="col-md-8">
+					<select class="form-control" chosen ng-model="qrc.siteAddress" ng-options="siteadd.id as siteadd.address1 + ', ' + siteadd.city + ', ' + siteadd.state + '. ' + siteadd.zipCode for siteadd in qrc.addressList track by siteadd.id " required></select>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-md-3 control-label"></label>
+				<div class="col-md-8">
+					<button class="btn btn-primary" id="add_fileItem" ng-click="qrc.openAddProjectSiteModal()"> Add address </button>
+				</div>
+			</div>
+
+
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">Due Date:</label>
+				<div class="col-md-8">
+					<div class="input-group">
+						<span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+						<input type="text" id="quote_Request_Duedate" ng-model="qrc.quoteRequestData.date" class="form-control datepicker" value="2017-01-02">
+					</div>
+					<span class="help-block">Click on input field to set Due Date</span>
+				</div>
+			</div>
+
+
+			<div class="panel-footer">
+				<button type="button" class="btn btn-default mb-control" data-box="#message-box-danger">Delete Quote</button>
+				<button class="btn btn-default pull-right" ng-click="qrc.updateQr(quoteRequestData)">Update Quote Request</button>
+
+			</div>
+
+		</div>
+	</form>
+</div>
+
+   -->
+<!--
+
+   ============================================================================================
+
+		- QUOTE REQUEST ADD ITEMS FORM
+
+   ============================================================================================
+
+   -->
+<!--
+<div class="col-md-6">
+	<form role="form" class="form-horizontal" name="addQrForm" ng-submit="qrc.submitForm(addQrForm.$valid)" novalidate>
+		<div class="panel panel-default">
+
+			<div class="panel-body">
+				<h6 class="panel-title">Add Items</h6>
+			</div>
+
+			<div class="form-group">
+
+				<label class="col-md-3 control-label">Category:</label>
+
+				<div class="col-md-9 master-format-list">
+					<select chosen class="form-control" ng-model="qrc.qrItem" ng-options="key as value for (key, value) in qrc.sampleCat track by key" required></select>
+					<span class="help-block" ng-show="addqrform.qrItemName.$error.required">select item</span>
+				</div>
+
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-md-3 control-label">Unit:</label>
+				<div class="col-md-9">
+					<select id="quoteItemUnit" name="qrItemUnit" chosen option="unit" class="form-control" ng-model="qrc.unit" ng-options="unit.name as unit.name for unit in qrc.sampleUnit track by unit.name" required></select>
+					<p class="help-block" ng-show="addQrForm.qrItemUnit.$error.required">Unit type is required</p>
+
+				</div>
+			</div>
+
+
+			<div class="form-group" @*ng-class="{ 'has-error': addQrForm.quantityInput.$invalid && !addQrForm.quantityInput.$pristine }*@ ">
+				<label class="col-md-3 control-label">Quantity:</label>
+				<div class="col-md-9">
+					<input type="number" name="quantityInput" id="quoteItemQuantity" class="form-control" ng-model="qrc.quantity" required />
+					<p ng-show="addQrForm.quantityInput.$invalid && !addQrForm.quantityInput.$pristine" class="help-block">Input is required</p>
+				</div>
+			</div>
+
+
+			<div class="panel-footer">
+				<button class="btn btn-success" id="add_fileItem"> Upload Files </button>
+				<button class="btn btn-default pull-right" id="add_QuoteItem" ng-disabled="addQrForm.$invalid" ng-submit="qrc.insertQrItem()">Add Quote Item</button>
+			</div>
+
+		</div>
+
+	</form>
+
+</div>
+
+<div class="alert alert-success alert-dismissable " style="display:none" id="success-media-submit">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong>Success!</strong> You have successfully uploaded files.
+</div>
+	   -->
+
+
