@@ -1,18 +1,18 @@
 ﻿using Microsoft.Practices.Unity;
-using Sabio.Data;
-using Sabio.Web.Domain;
-using Sabio.Web.Domain.Quotes;
-using Sabio.Web.Enums.QuoteRequestBidWorkflow;
-using Sabio.Web.Enums.QuoteWorkflow;
-using Sabio.Web.Hubs;
-using Sabio.Web.Enums;
-using Sabio.Web.Models.Requests;
-using Sabio.Web.Models.Requests.Quotes;
-using Sabio.Web.Models.Requests.User;
-using Sabio.Web.Models.Responses;
-using Sabio.Web.Services.Interfaces;
-using Sabio.Web.Services.S3Service;
-using Sabio.Web.Services.Workflow;
+using quotemule.Data;
+using quotemule.Web.Domain;
+using quotemule.Web.Domain.Quotes;
+using quotemule.Web.Enums.QuoteRequestBidWorkflow;
+using quotemule.Web.Enums.QuoteWorkflow;
+using quotemule.Web.Hubs;
+using quotemule.Web.Enums;
+using quotemule.Web.Models.Requests;
+using quotemule.Web.Models.Requests.Quotes;
+using quotemule.Web.Models.Requests.User;
+using quotemule.Web.Models.Responses;
+using quotemule.Web.Services.Interfaces;
+using quotemule.Web.Services.S3Service;
+using quotemule.Web.Services.Workflow;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -21,7 +21,7 @@ using System.Reflection;
 using System.Web;
 
 
-namespace Sabio.Web.Services
+namespace quotemule.Web.Services
 {
 	public class QuoteRequestService : BaseService, IQuoteRequestService 
 	{
@@ -395,11 +395,7 @@ namespace Sabio.Web.Services
 
 				// Passing through the values to the Domain Object
 				quoteStatus.StatusName = quoteStatus.Status.ToString();
-		   
-
-
-
-
+		  
 
 			});
 			}
@@ -448,11 +444,7 @@ namespace Sabio.Web.Services
 			return id;
 		}
 
-
-
 		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
 
 		public bool UpdateQuoteRequest(QuoteRequestUpdateRequest model)
 		{
@@ -479,11 +471,7 @@ namespace Sabio.Web.Services
 			return success;
 		}
 
-
-
 		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
 
 		private static bool UpdateQuoteRequestStatus(QrUpdateStatusRequest model)
 		{
@@ -507,8 +495,6 @@ namespace Sabio.Web.Services
 
 			return success;
 		}
-
-
 
 		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -534,20 +520,18 @@ namespace Sabio.Web.Services
 			return success;
 		}
 
-
-
 		// /////////////////////////////////////////////////////////////////////////////////////////
 		// Workflow Methods by Kevin Horan & Ravid Yoeun
 		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-		//- SABIOFIXME - replace naked variables with Request Model
+		//- quotemuleFIXME - replace naked variables with Request Model
 		public bool QuoteRequestSMAttemptCancel(int id, string userId)
 		{
 			bool success = false;
 			// Cancelling is the right of the originator
 			QuoteRequestDomain model = GetQuoteRequestById(id);
 
-			//- SABIOFIXME - this should be a check against the companyId instead of userId
+			//- quotemuleFIXME - this should be a check against the companyId instead of userId
 			if (model.UserId == userId)
 			{
 				try
@@ -570,7 +554,7 @@ namespace Sabio.Web.Services
 					UpdateQuoteRequestStatus(QrUpdate);
 					
 				}
-				//- SABIOFIXME - Implement a catch for InvalidOperationException that sets success to false
+				//- quotemuleFIXME - Implement a catch for InvalidOperationException that sets success to false
 				catch (Exception ex)
 				{
 					throw ex;
@@ -578,8 +562,6 @@ namespace Sabio.Web.Services
 			}
 			return success;
 		}
-
-
 
 		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -616,7 +598,6 @@ namespace Sabio.Web.Services
 
 			return success;
 		}
-
 
 		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -656,49 +637,6 @@ namespace Sabio.Web.Services
 			}
 			return success;
 		}
-
-
-
-
-		// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-		//public bool StateQuoteCancel(int id)
-		//{
-		//    bool success = false;
-		//    try
-		//    {
-		//        QuoteRequestDomain model = GetQuoteById(id);
-
-		//        QuoteStateService StateHandler = new QuoteStateService(model);
-
-		//        // Verify this is valid action
-		//        StateHandler.StateMachine.Fire(QREvent.Cancel);
-
-
-
-
-		//        // Update Status on THIS model
-		//        model.Status = QRState.Cancelled;
-
-		//        // Update status in DB
-		//        QrUpdateStatusRequest QrUpdate = new QrUpdateStatusRequest
-		//        {
-		//            Id = model.I;d,
-		//            Status = model.Status
-		//        };
-
-		//        UpdateQuoteStatus(QrUpdate);
-		//    }
-		//    catch (InvalidOperationException)
-		//    {
-		//        return success = false;
-		//    }
-		//    catch (Exception ex)
-		//    {
-		//        throw ex;
-		//    }
-		//    return success;
-		//}
 
 
 

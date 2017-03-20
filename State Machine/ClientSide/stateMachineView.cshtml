@@ -31,8 +31,6 @@
 
                         </ul>
 
-
-
                         <div class="stepContainer" style="height: 54px;">
                             <div ng-if="main.thisStatus === 1" id="step-1" class="content" style="">
                                 <h4>Step 1</h4>
@@ -50,8 +48,6 @@
                                 <p>Your Quote Request is complete! Thank you for using Quotemule.</p>
                             </div>
                         </div>
-
-
 
                         <!--State Wizard Buttons Begin-->
                         <div ng-if="main.companyRole == 1">
@@ -80,14 +76,7 @@
 
     <div ng-view ng-cloak></div>
 
-
-
-
 </div>
-
-
-
-
 
 <div class="row">
     <div class="message-box message-box-danger animated fadeIn" id="message-box-danger">
@@ -104,8 +93,6 @@
             </div>
         </div>
     </div>
-
-
     <input type="hidden" id="quote_request_id" value="@Model.Item" />
 </div>
 
@@ -157,8 +144,6 @@
                                                 </div>
 
                                             </form>
-
-
                                         </div>
 
                                     </div>
@@ -202,9 +187,6 @@
 
     }
 
-
-
-
     <div class="col-md-6">
 
         <!-- Timeline Block -->
@@ -219,7 +201,6 @@
     </div>
 
 </div>
-
 
 <!--
 
@@ -237,11 +218,11 @@
 
     <script src="~/Scripts/dropzonejs/dropzone.js"></script>
     <script src="~/Scripts/bower_components/angular-dropzone/lib/angular-dropzone.js"></script>
-    <script src="~/Scripts/app/Modules/sabio.module.ngDropzone.js"></script>
+    <script src="~/Scripts/app/Modules/quotemule.module.ngDropzone.js"></script>
 
     <script src="~/Scripts/bower_components/chosen/chosen.jquery.js"></script>
     <script src="~/Scripts/bower_components/angular-chosen-localytics/dist/angular-chosen.min.js"></script>
-    <script src="~/Scripts/app/Modules/sabio.module.ngChosen.js"></script>
+    <script src="~/Scripts/app/Modules/quotemule.module.ngChosen.js"></script>
     <script src="~/Scripts/resources/mf.js"></script>
     <script src="~/Scripts/resources/QuoteRequestEstimations.js"></script>
 
@@ -263,10 +244,10 @@
     <script src="~/Scripts/Theme/topCenter.js"></script>
     <script src="~/Scripts/Theme/default.js"></script>
     <script src="~/Scripts/Theme/jquery.validate.js"></script>
-    <script src="~/Scripts/sabio.services.QuoteRequests.js"></script>
-    <script src="~/Scripts/sabio.services.addresses.js"></script>
-    <script src="~/Scripts/sabio.services.timeline.js"></script>
-    <script src="~/Scripts/sabio.services.quotes.js"></script>
+    <script src="~/Scripts/quotemule.services.QuoteRequests.js"></script>
+    <script src="~/Scripts/quotemule.services.addresses.js"></script>
+    <script src="~/Scripts/quotemule.services.timeline.js"></script>
+    <script src="~/Scripts/quotemule.services.quotes.js"></script>
     <script src="~/Scripts/moment.js"></script>
 
     <!--ANGULAR QR Scripts-->
@@ -292,13 +273,13 @@
 
     <script src="~/Scripts/app/QuoteRequests/Services/StateMachineFactory.js"></script>
     <!--Ajax Service -->
-    <script src="~/Scripts/sabio.services.statemachine.js"></script>
+    <script src="~/Scripts/quotemule.services.statemachine.js"></script>
     <!-- Drop Zone Links-->
     <link href="~/Content/animate.css" rel="stylesheet" />
     <link href="~/Content/dropzone.css" rel="stylesheet" />
     <script src="~/Scripts/bootstrap-file-input.js"></script>
     <script src="~/Scripts/dropzonejs/dropzone.js"></script>
-    <script src="~/Scripts/sabio.services.quoteRequestMedia.js"></script>
+    <script src="~/Scripts/quotemule.services.quoteRequestMedia.js"></script>
 
     <!--bid services-->
     <script src="~/Scripts/app/Bids/Services/bidService.js"></script>
@@ -322,11 +303,11 @@
     <script src="~/Scripts/app/Addresses/Controllers/addressBook.js"></script>
 
 
-    <script src="~/Scripts/sabio.services.addresses.js"></script>
+    <script src="~/Scripts/quotemule.services.addresses.js"></script>
 
-    <script src="~/Scripts/sabio.services.bid.js"></script>
+    <script src="~/Scripts/quotemule.services.bid.js"></script>
 
-    <script src="~/Scripts/sabio.services.notification.js"></script>
+    <script src="~/Scripts/quotemule.services.notification.js"></script>
     <script src="~/Scripts/app/QuoteRequests/Services/qrItemValidate.js"></script>
 
 

@@ -7,12 +7,12 @@
         .factory('$stateMachineService', StateMachineFactory);
 
     //  manually identify dependencies for injection: https://github.com/johnpapa/angular-styleguide#style-y091
-    //  $sabio is a reference to sabio.page object. sabio.page is created in sabio.js
-    StateMachineFactory.$inject = ['$baseService', '$sabio'];
+    //  $quotemule is a reference to quotemule.page object. quotemule.page is created in quotemule.js
+    StateMachineFactory.$inject = ['$baseService', '$quotemule'];
 
-    function StateMachineFactory($baseService, $sabio) {
-        //  sabio.page has been injected as $sabio so we can reference anything that is attached to sabio.page here
-        var stateMachineObject = sabio.services.statemachine;
+    function StateMachineFactory($baseService, $quotemule) {
+        //  quotemule.page has been injected as $quotemule so we can reference anything that is attached to quotemule.page here
+        var stateMachineObject = quotemule.services.statemachine;
 
         //  merge the jQuery object with the angular base service to simulate inheritance
         var newService = $baseService.merge(true, {}, stateMachineObject, $baseService);

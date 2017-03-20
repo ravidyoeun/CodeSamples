@@ -1,15 +1,15 @@
 ﻿//====================================================================
-// sabio.services
+// quotemule.services
 //====================================================================
-sabio.services = sabio.services || {};
+quotemule.services = quotemule.services || {};
 
-sabio.services.quoteStateMachine = sabio.services.quoteStateMachine || {};
+quotemule.services.quoteStateMachine = quotemule.services.quoteStateMachine || {};
 
 
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // AJAX GET CURRENT STATUS
-sabio.services.quoteStateMachine.getStatusByQuoteId = function (quoteId, onAjaxSuccess, onAjaxError) {
+quotemule.services.quoteStateMachine.getStatusByQuoteId = function (quoteId, onAjaxSuccess, onAjaxError) {
     var url = "/api/quotestate/" + quoteId;
 
     var settings = {
@@ -29,7 +29,7 @@ sabio.services.quoteStateMachine.getStatusByQuoteId = function (quoteId, onAjaxS
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // AJAX UPDATE QUOTE STATE - Publish State 1
-sabio.services.quoteStateMachine.updateStateforQuote = function (quoteId, data, onAjaxSuccess, onAjaxError) {
+quotemule.services.quoteStateMachine.updateStateforQuote = function (quoteId, data, onAjaxSuccess, onAjaxError) {
     var url = "/api/quotestate/" + quoteId;
 
     var settings = {

@@ -1,14 +1,14 @@
 ﻿using Microsoft.Practices.Unity;
-using Sabio.Web.Domain;
-using Sabio.Web.Domain.Quotes;
-using Sabio.Web.Enums;
-using Sabio.Web.Enums.QuoteWorkflow;
-using Sabio.Web.Hubs;
-using Sabio.Web.Models.Requests;
-using Sabio.Web.Models.Requests.User;
-using Sabio.Web.Models.Responses;
-using Sabio.Web.Services;
-using Sabio.Web.Services.Interfaces;
+using quotemule.Web.Domain;
+using quotemule.Web.Domain.Quotes;
+using quotemule.Web.Enums;
+using quotemule.Web.Enums.QuoteWorkflow;
+using quotemule.Web.Hubs;
+using quotemule.Web.Models.Requests;
+using quotemule.Web.Models.Requests.User;
+using quotemule.Web.Models.Responses;
+using quotemule.Web.Services;
+using quotemule.Web.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace Sabio.Web.Controllers.Api
+namespace quotemule.Web.Controllers.Api
 {
     [RoutePrefix("api/states")]
     public class StateMachineApiController : ApiController
@@ -123,9 +123,6 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, response);
 
         }
-
-
-
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
         [Route("{id}"), HttpGet]
@@ -153,8 +150,6 @@ namespace Sabio.Web.Controllers.Api
 
         }
 
-
-
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         // TESTING SMS MESSAGING API - RAVID YOEUN
         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -175,46 +170,5 @@ namespace Sabio.Web.Controllers.Api
             return Request.CreateResponse(HttpStatusCode.OK, response);
         }
 
-
-
-
-        //[Route("{userId}"), HttpDelete]
-
-        //public HttpResponseMessage DeleteProfile(string userId)
-        //{
-        //    // Validate incoming payload model.
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-        //    }
-
-        //    // Create and call a BlogUpdate method in the BlogService.
-        //    bool isSuccessful = _UserProfileService.DeleteProfile(userId);
-
-        //    // Load the response Item with the success boolean (true).
-        //    ItemResponse<bool> response = new ItemResponse<bool> { Item = isSuccessful };
-
-        //    return Request.CreateResponse(HttpStatusCode.OK, response);
-        //}
-
-
-
-        //// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-        //[Route("{userId}/media"), HttpPut]
-
-        //public HttpResponseMessage UpdateProfileMediaId(UserProfileMediaIdUpdateRequest model)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-        //    }
-
-        //    bool isSuccessful = _UserProfileService.UpdateProfileMediaId(model);
-
-        //    ItemResponse<bool> response = new ItemResponse<bool> { Item = isSuccessful };
-
-        //    return Request.CreateResponse(HttpStatusCode.OK, response);
-        //}
     }
 }
