@@ -1,0 +1,522 @@
+﻿@{
+    ViewBag.Title = "Company Contacts";
+}
+
+
+
+
+<!-- END PAGE TITLE -->
+<!-- PAGE CONTENT WRAPPER -->
+<div class="page-content-wrap" data-ng-controller="companyEmployeeApiController as ceac">
+    <!-- PAGE TITLE -->
+    <div class="page-title">
+        <h2><span class="fa fa-users"></span> Company Contacts</h2>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                @if (Model._Admin)
+                {
+                    <div class="panel-body">
+
+                        <button type="button" class="btn btn-success" ng-click="ceac.openModal()"><i class="fa fa-plus"></i> Invite New User</button>
+
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+    <dir-pagination-controls on-page-change="ceac.pageChanged(newPageNumber)">
+    </dir-pagination-controls>
+    <div class="row row-eq-height" id="employee_container ">
+
+        <!-- CONTACT ITEM TEMPLATE-->
+
+        <div class="col-md-3 " dir-paginate="item in ceac.items | itemsPerPage: ceac.pageInfo.itemsPerPage" total-items="ceac.totalItems" current-page="ceac.pageInfo.currentPage">
+            <div class="panel panel-default col-profile-list-container">
+                <div class="panel-body profile user-profile">
+                    <div class="profile-image img ">
+                        <img class="contact-list" ng-src="{{item.url}}" alt="User profile Picture" />
+                    </div>
+                    <div class="profile-data">
+                        <div class="profile-data-name">{{item.firstName}} {{item.lastName}}</div>
+                        <div class="profile-data-title">{{item.jobTitle}}</div>
+                    </div>
+                    <div class="profile-controls">
+                        <a href="#" class="profile-control-left"><span class="fa fa-info"></span></a>
+                        <a href="#" class="profile-control-right"><span class="fa fa-phone"></span></a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="contact-info">
+                        <p><small>Phone</small><br /><div class="phone-number"><a href={{'tel:'+item.phoneNumber}}>{{item.phoneNumber | tel}}</a></div></p>
+                        <p><small>Email</small><br /><div class="email-address">{{item.email | limitTo: 25}}{{item.email.length > 25? " ...": ""}}</div></p>
+                        <p><small>Company</small><br /><div class="company-name">{{item.name}}</div></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <!-- END CONTACT ITEM TEMPLATE -->
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <!-- server side pagination -->
+        @*<ul class="pagination pagination-sm pull-right push-down-10 push-up-10">
+                <li class="disabled"><a href="#">«</a></li>
+                <li class="active"><a href="#">1</a></li>
+                <li><a href="#">2</a></li>
+                <li><a href="#">3</a></li>
+                <li><a href="#">4</a></li>
+                <li><a href="#">»</a></li>
+            </ul>*@
+    </div>
+</div>
+<!--Invite New User Modal -->
+<script type="text/ng-template" id="inviteUserModal.html">
+
+
+    <div class="modal-header">
+        <h3><span class="fa fa-user-plus"></span> Invite New User</h3>
+    </div>
+    <div class="modal-body">
+        <form action="#" class="form-horizontal " name="inviteForm">
+            <div class="panel-body block-full-width">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Email Address</label>
+                    <div class="col-md-8 col-xs-7">
+                        <input type="email" name="input" class="form-control" id="input_userEmail" placeholder="Enter Email" ng-model="iumc.email" />
+                        <div role="alert">
+                            <span class="error" ng-show="inviteForm.input.$error.email">
+                                Email is not valid
+                            </span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">User Role</label>
+                    <div class="col-md-5 col-xs-7">
+                        <select id="userRoleCategory" name="inputSelect" chosen option="role" class="form-control selectpicker" ng-model="iumc.userRole" ng-options="role.role as role.role for role in iumc.userRoleCategory track by role.role" required></select>
+                        <div role="alert">
+                            <span class="error" ng-show="inviteForm.inputSelect.$error.required">
+                                Please select a user role.
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-info" id="inviteBtn" ng-click="iumc.inviteUserByEmail()">Send Invite</button>
+    </div>
+
+
+
+</script>
+
+@section pageInItScripts {
+
+    <script src="~/Scripts/bower_components/chosen/chosen.jquery.js"></script>
+    <script src="~/Scripts/bower_components/angular-chosen-localytics/dist/angular-chosen.min.js"></script>
+    <script src="~/Scripts/app/Modules/sabio.module.ngChosen.js"></script>
+     <!--Pagination Script-->
+<script src="~/Scripts/app/Modules/sabio.module.ngPagination.js"></script>
+<script src="~/Scripts/bower_components/angularUtils-pagination/dirPagination.js"></script>
+}
+
+
+<!-- END PAGE CONTENT WRAPPER -->
+@section Scripts{
+
+   
+
+    <script src="~/Scripts/Angular-app-module.js"></script>
+    <script src="~/Scripts/modernizr.js"></script>
+    <script src="~/Scripts/sabio.js"></script>
+    <script src="~/Scripts/bootstrap-file-input.js"></script>
+    <script src="~/Scripts/sabio.services.addressBook.js"></script>
+    <script src="~/Scripts/Theme/bootstrap-select.js"></script>
+    <script src="~/Scripts/intro.min.js"></script>
+    <script src="~/Scripts/dropzonejs/dropzone.js"></script>
+    <script src="~/Scripts/sabio.services.authentication.js"></script>
+    <script src="~/Scripts/sabio.services.userprofile.js"></script>
+
+    <!-- Toastr Scripts-->
+    <script src="~/Scripts/app/Modules/sabio.module.ngToastr.js"></script>
+    <script src="~/Scripts/bower_components/angular-toastr/dist/angular-toastr.js"></script>
+    <script src="~/Scripts/bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <script type="text/javascript">
+
+        sabio.services = sabio.services || {};    // namespace
+
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // sabio.page.startUp = function () {
+
+        // StartUp values
+        sabio.p = {
+            profileModal: "#cProfile_modal",
+            companyId: $("#PAGECOMPANY").val(),
+            companyName: $('#COMPANYNAME').val(),
+            companyRole: $("#COMPANYROLE").val(),
+            companyOwnerId: $("#COMPANYOWNERID").val(),
+            companyAddress: $("#COMPANYADDRESSSTRING").val(),
+            companyRole: $("#COMPANYROLE").val(),
+            companyPhotoUrl: $("#COMPANYPHOTOURL").val(),
+            currentUserId: $("#PAGEUSER").val(),
+            address: "130 Newport Center Dr., Newport Beach, CA 92660",
+            btnEditModal: "#edit_modal_icon"
+        };
+
+
+        //  all members must be wrapped in an IIFE: https://github.com/johnpapa/angular-styleguide#iife
+        (function () {
+            "use strict";
+
+            //  APPNAME is a type of variable called a "constant" because it never changes. it is defined in _LayoutAlternate.cshtml
+            //  service is implemented as a factory: https://github.com/johnpapa/angular-styleguide#style-y040
+            angular.module(APPNAME)
+                .factory('$UserService', UserServiceFactory);
+
+            //  manually identify dependencies for injection: https://github.com/johnpapa/angular-styleguide#style-y091
+            //  $sabio is a reference to sabio.page object. sabio.page is created in sabio.js
+            UserServiceFactory.$inject = ['$baseService', '$sabio'];
+
+            function UserServiceFactory($baseService, $sabio) {
+                //  sabio.page has been injected as $sabio so we can reference anything that is attached to sabio.page here
+                var aSabioServiceObject = sabio.services.public;
+
+                //  merge the jQuery object with the angular base service to simulate inheritance
+                var newService = $baseService.merge(true, {}, aSabioServiceObject, $baseService);
+
+                return newService;
+            }
+        })();
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+            .factory('$authenticationService', authenticationServiceFactory);
+
+            authenticationServiceFactory.$inject = ['$baseService', '$sabio'];
+
+            function authenticationServiceFactory($baseService, $sabio) {
+
+                var aSabioServiceObject = sabio.services.authentication;
+
+                var newService = $baseService.merge(true, {}, aSabioServiceObject, $baseService);
+
+                return newService;
+            }
+
+        })();
+
+        // Phone Number Angular Filter
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME).filter('tel', function () {
+                return function (tel) {
+                    if (!tel) { return ''; }
+
+                    var value = tel.toString().trim().replace(/^\+/, '');
+
+                    if (value.match(/[^0-9]/)) {
+                        return tel;
+                    }
+
+                    var country, city, number;
+
+                    switch (value.length) {
+                        case 10: // +1PPP####### -> C (PPP) ###-####
+                            country = 1;
+                            city = value.slice(0, 3);
+                            number = value.slice(3);
+                            break;
+
+                        case 11: // +CPPP####### -> CCC (PP) ###-####
+                            country = value[0];
+                            city = value.slice(1, 4);
+                            number = value.slice(4);
+                            break;
+
+                        case 12: // +CCCPP####### -> CCC (PP) ###-####
+                            country = value.slice(0, 3);
+                            city = value.slice(3, 5);
+                            number = value.slice(5);
+                            break;
+
+                        default:
+                            return tel;
+                    }
+
+                    if (country == 1) {
+                        country = "";
+                    }
+
+                    number = number.slice(0, 3) + '-' + number.slice(3);
+
+                    return (country + " (" + city + ") " + number).trim();
+                }
+
+            })
+
+
+        })();
+        // controller
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .controller('companyEmployeeApiController', CompanyEmployeeApiController);
+
+            CompanyEmployeeApiController.$inject = ['$scope', '$baseController', '$UserService', '$uibModal'];
+
+            function CompanyEmployeeApiController(
+                    $scope
+                    , $baseController
+                    , $UserService
+                    , $uibModal
+                ) {
+
+                //  controllerAs with vm syntax: https://github.com/johnpapa/angular-styleguide#style-y032
+                var vm = this;//this points to a new {}
+
+                vm.item = null;
+                $baseController.merge(vm, $baseController);
+
+                vm.$UserService = $UserService;
+                vm.$scope = $scope;
+                vm.$uibModal = $uibModal;
+
+                //  bindable members (functions) always go up top while the "meat" of the functions go below: https://github.com/johnpapa/angular-styleguide#style-y033
+                vm.receiveItems = _receiveItems;
+                vm.onEmpError = _onEmpError;
+                vm.companyId = sabio.p.companyId;
+                // server side pagination
+                vm.pageChanged = _pageChanged;
+                vm.totalItems = 0;
+                vm.pageInfo = {
+                    itemsPerPage: 8
+                    , currentPage: 1
+                    , companyId: sabio.p.companyId
+                };
+
+                //  modal directive
+                vm.modalSelected = null;
+                vm.renderEmployeeProfiles = _renderEmployeeProfiles;
+                vm.openModal = _openModal;
+
+
+
+
+                // this line to simulate inheritance
+                $baseController.merge(vm, $baseController);
+
+                // this is a wrapper for our small dependency on $scope
+                vm.notify = vm.$UserService.getNotifier($scope);
+
+                // this is like the sabio.startUp function
+
+                // render();
+                vm.renderEmployeeProfiles();
+                //console.log('companyId', vm.companyId);
+
+
+
+                function _renderEmployeeProfiles() {
+                    //  defer data operations into an external service: https://github.com/johnpapa/angular-styleguide#style-y035
+                    //console.log('vm.companyId: ', vm.companyId);
+                    // located in sabio.services.addressBook.js
+                    vm.$UserService.getAllEmployeesByCompanyId(vm.pageInfo, vm.receiveItems, vm.onEmpError);
+
+                }
+
+                function _receiveItems(data) {
+                    //this receives the data and calls the special
+                    //notify method that will trigger ng to refresh UI
+
+                    $.each(data.items, function (i, contact) {
+                        if (contact.url === null) {
+                            data.items[i].url = "http://gurucul.com/wp-content/uploads/2015/01/default-user-icon-profile.png";
+                        }
+
+                    });
+
+
+                    vm.notify(function () {
+                        vm.items = data.items;
+                        //vm.totalItems = data.totalCount;
+                        vm.totalItems = 40;
+                        console.log(' renderEmployeeProfiles(): ', vm.items);
+                        console.log('totalItems:', vm.totalItems);
+                        console.log('data',data);
+                    });
+                }
+
+                // server side pagination
+                function _pageChanged(newPage) {
+                    vm.pageInfo.currentPage = newPage;
+                    console.log('vm.pageInfo.currentpage:', vm.pageInfo.currentPage);
+                    vm.$UserService.getAllEmployeesByCompanyId(vm.pageInfo, vm.receiveItems, vm.onEmpError);
+                };
+
+                function _selectEmployee(anEmp) {
+                    console.log("anEmp: ", anEmp);
+                    vm.selectedProfile = anEmp;
+                }
+
+                function _onEmpError(jqXhr, error) {
+                    console.error('ERROR:', error);
+                }
+
+
+
+
+                // function to handle modal
+                function _openModal() {
+                    var modalInstance = vm.$uibModal.open({
+                        animation: true,
+                        templateUrl: 'inviteUserModal.html',       //  this tells it what html template to use. it must exist in a script tag OR external file
+                        controller: 'inviteUserModalController as iumc',    //  this controller must exist and be registered with angular for this to work
+
+                        resolve: {  //  anything passed to resolve can be injected into the modal controller as shown below
+
+                        }
+                    });
+
+                    //  when the modal closes it returns a promise
+                    modalInstance.result.then(function () {
+                        //  if the user closed the modal by clicking Save
+
+
+                    }, function () {
+                        console.log('Modal dismissed at: ' + new Date());   //  if the user closed the modal by clicking cancel
+                    });
+                }
+            }
+        })();
+
+
+
+
+        // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        //- Angular Invite User Modal Controller
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .controller('inviteUserModalController', InviteUserModalController);
+
+            InviteUserModalController.$inject = ['$scope', '$baseController', '$uibModalInstance', '$UserService', '$authenticationService', '$alertService']
+
+            function InviteUserModalController(
+                  $scope
+                , $baseController
+                , $uibModalInstance
+                , $UserService
+                , $authenticationService
+                , $alertService
+                ) {
+
+                var vm = this;
+                vm.items = null;
+                vm.email = null;
+
+                // directives
+                $baseController.merge(vm, $baseController);
+                vm.$authenticationService = $authenticationService;
+                vm.notify = vm.$authenticationService.getNotifier($scope);
+                vm.$scope = $scope;
+                vm.$uibModalInstance = $uibModalInstance;
+                vm.inviteUserByEmail = _inviteUserbyEmail;
+                vm.alertService = $alertService;
+
+                vm.userRoleCategory =
+                  [{
+
+                      role: "System Admin"
+
+                  },
+                  {
+
+                      role: "Company Admin"
+
+                  },
+                  {
+
+                      role: "Company Engineer"
+
+                  },
+                   {
+
+                       role: "Employee"
+
+                   },
+                   {
+
+                       role: "Manager"
+
+                   }];
+
+                //============================================================
+                function _inviteUserbyEmail() {
+                    console.log('_inviteUserByEmail activated: ')
+
+                    if (vm.email != null) {
+
+                        var inviteUserPayload = {
+                            "CompanyName": sabio.p.companyName,
+                            "Email": vm.email,
+                            "CompanyId": sabio.p.companyId,
+                            "UserRole": vm.userRole
+
+                        }
+                        console.log("inviteUserPayload:", inviteUserPayload)
+                        vm.$authenticationService.inviteUser(inviteUserPayload, vm.inviteSuccess, vm.modalError)
+                    }
+                    else {
+                        console.log('invalid email or no email input')
+                    }
+                }
+
+                //============================================================
+                vm.inviteSuccess = function (data) {
+                    vm.items = data.items
+                    vm.alertService.success('User Invitation Sent!', 'Success!');
+                    console.log('Send Invite Success...');
+
+                    vm.$uibModalInstance.close();
+                };
+
+                vm.modalError = function (data) {
+                    console.log('data', data);
+                    if (data.status == 400) {
+                        vm.alertService.error('Email Already Exists.', 'Error');
+                    }
+                    else if (data.status == 500) {
+                        vm.alertService.error('Please check Stored Procedures.', 'Error');
+                    }
+                    else if (data.status == 404) {
+                        vm.alertService.error('Check routing and HTTP Method.', 'Error');
+                    }
+                
+                    vm.$uibModalInstance.dismiss('cancel');
+                };
+                vm.cancel = function () {
+                    vm.$uibModalInstance.dismiss('cancel');
+                };
+
+
+            }
+
+        })();
+    </script>
+}
