@@ -1,10 +1,10 @@
-﻿using Sabio.Web.Models.Requests;
+﻿using quotemule.Web.Models.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Sabio.Web.Services.Interfaces
+namespace quotemule.Web.Services.Interfaces
 {
     public interface ITemplateEmailService
     {

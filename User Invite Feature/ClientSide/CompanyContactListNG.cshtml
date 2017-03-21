@@ -125,9 +125,9 @@
 
     <script src="~/Scripts/bower_components/chosen/chosen.jquery.js"></script>
     <script src="~/Scripts/bower_components/angular-chosen-localytics/dist/angular-chosen.min.js"></script>
-    <script src="~/Scripts/app/Modules/sabio.module.ngChosen.js"></script>
+    <script src="~/Scripts/app/Modules/quotemule.module.ngChosen.js"></script>
      <!--Pagination Script-->
-<script src="~/Scripts/app/Modules/sabio.module.ngPagination.js"></script>
+<script src="~/Scripts/app/Modules/quotemule.module.ngPagination.js"></script>
 <script src="~/Scripts/bower_components/angularUtils-pagination/dirPagination.js"></script>
 }
 
@@ -139,28 +139,28 @@
 
     <script src="~/Scripts/Angular-app-module.js"></script>
     <script src="~/Scripts/modernizr.js"></script>
-    <script src="~/Scripts/sabio.js"></script>
+    <script src="~/Scripts/quotemule.js"></script>
     <script src="~/Scripts/bootstrap-file-input.js"></script>
-    <script src="~/Scripts/sabio.services.addressBook.js"></script>
+    <script src="~/Scripts/quotemule.services.addressBook.js"></script>
     <script src="~/Scripts/Theme/bootstrap-select.js"></script>
     <script src="~/Scripts/intro.min.js"></script>
     <script src="~/Scripts/dropzonejs/dropzone.js"></script>
-    <script src="~/Scripts/sabio.services.authentication.js"></script>
-    <script src="~/Scripts/sabio.services.userprofile.js"></script>
+    <script src="~/Scripts/quotemule.services.authentication.js"></script>
+    <script src="~/Scripts/quotemule.services.userprofile.js"></script>
 
     <!-- Toastr Scripts-->
-    <script src="~/Scripts/app/Modules/sabio.module.ngToastr.js"></script>
+    <script src="~/Scripts/app/Modules/quotemule.module.ngToastr.js"></script>
     <script src="~/Scripts/bower_components/angular-toastr/dist/angular-toastr.js"></script>
     <script src="~/Scripts/bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
     <script type="text/javascript">
 
-        sabio.services = sabio.services || {};    // namespace
+        quotemule.services = quotemule.services || {};    // namespace
 
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // sabio.page.startUp = function () {
+        // quotemule.page.startUp = function () {
 
         // StartUp values
-        sabio.p = {
+        quotemule.p = {
             profileModal: "#cProfile_modal",
             companyId: $("#PAGECOMPANY").val(),
             companyName: $('#COMPANYNAME').val(),
@@ -185,15 +185,15 @@
                 .factory('$UserService', UserServiceFactory);
 
             //  manually identify dependencies for injection: https://github.com/johnpapa/angular-styleguide#style-y091
-            //  $sabio is a reference to sabio.page object. sabio.page is created in sabio.js
-            UserServiceFactory.$inject = ['$baseService', '$sabio'];
+            //  $quotemule is a reference to quotemule.page object. quotemule.page is created in quotemule.js
+            UserServiceFactory.$inject = ['$baseService', '$quotemule'];
 
-            function UserServiceFactory($baseService, $sabio) {
-                //  sabio.page has been injected as $sabio so we can reference anything that is attached to sabio.page here
-                var aSabioServiceObject = sabio.services.public;
+            function UserServiceFactory($baseService, $quotemule) {
+                //  quotemule.page has been injected as $quotemule so we can reference anything that is attached to quotemule.page here
+                var aquotemuleServiceObject = quotemule.services.public;
 
                 //  merge the jQuery object with the angular base service to simulate inheritance
-                var newService = $baseService.merge(true, {}, aSabioServiceObject, $baseService);
+                var newService = $baseService.merge(true, {}, aquotemuleServiceObject, $baseService);
 
                 return newService;
             }
@@ -205,13 +205,13 @@
             angular.module(APPNAME)
             .factory('$authenticationService', authenticationServiceFactory);
 
-            authenticationServiceFactory.$inject = ['$baseService', '$sabio'];
+            authenticationServiceFactory.$inject = ['$baseService', '$quotemule'];
 
-            function authenticationServiceFactory($baseService, $sabio) {
+            function authenticationServiceFactory($baseService, $quotemule) {
 
-                var aSabioServiceObject = sabio.services.authentication;
+                var aquotemuleServiceObject = quotemule.services.authentication;
 
-                var newService = $baseService.merge(true, {}, aSabioServiceObject, $baseService);
+                var newService = $baseService.merge(true, {}, aquotemuleServiceObject, $baseService);
 
                 return newService;
             }
@@ -299,14 +299,14 @@
                 //  bindable members (functions) always go up top while the "meat" of the functions go below: https://github.com/johnpapa/angular-styleguide#style-y033
                 vm.receiveItems = _receiveItems;
                 vm.onEmpError = _onEmpError;
-                vm.companyId = sabio.p.companyId;
+                vm.companyId = quotemule.p.companyId;
                 // server side pagination
                 vm.pageChanged = _pageChanged;
                 vm.totalItems = 0;
                 vm.pageInfo = {
                     itemsPerPage: 8
                     , currentPage: 1
-                    , companyId: sabio.p.companyId
+                    , companyId: quotemule.p.companyId
                 };
 
                 //  modal directive
@@ -323,7 +323,7 @@
                 // this is a wrapper for our small dependency on $scope
                 vm.notify = vm.$UserService.getNotifier($scope);
 
-                // this is like the sabio.startUp function
+                // this is like the quotemule.startUp function
 
                 // render();
                 vm.renderEmployeeProfiles();
@@ -334,7 +334,7 @@
                 function _renderEmployeeProfiles() {
                     //  defer data operations into an external service: https://github.com/johnpapa/angular-styleguide#style-y035
                     //console.log('vm.companyId: ', vm.companyId);
-                    // located in sabio.services.addressBook.js
+                    // located in quotemule.services.addressBook.js
                     vm.$UserService.getAllEmployeesByCompanyId(vm.pageInfo, vm.receiveItems, vm.onEmpError);
 
                 }
@@ -473,9 +473,9 @@
                     if (vm.email != null) {
 
                         var inviteUserPayload = {
-                            "CompanyName": sabio.p.companyName,
+                            "CompanyName": quotemule.p.companyName,
                             "Email": vm.email,
-                            "CompanyId": sabio.p.companyId,
+                            "CompanyId": quotemule.p.companyId,
                             "UserRole": vm.userRole
 
                         }

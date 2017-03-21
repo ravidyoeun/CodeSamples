@@ -1,9 +1,9 @@
 ﻿using RazorEngine;
 using RazorEngine.Templating;
-using Sabio.Web.Models;
-using Sabio.Web.Models.Requests;
-using Sabio.Web.Models.ViewModels;
-using Sabio.Web.Services.Interfaces;
+using quotemule.Web.Models;
+using quotemule.Web.Models.Requests;
+using quotemule.Web.Models.ViewModels;
+using quotemule.Web.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +13,7 @@ using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
 
-namespace Sabio.Web.Services
+namespace quotemule.Web.Services
 {
     public class TemplateEmailService : ITemplateEmailService
     {

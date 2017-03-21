@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using Sabio.Web.Domain;
-using Sabio.Web.Enums;
-using Sabio.Web.Exceptions;
-using Sabio.Web.Models;
-using Sabio.Web.Models.Requests;
-using Sabio.Web.Models.Requests.company;
-using Sabio.Web.Models.Requests.Uploads;
-using Sabio.Web.Models.Requests.User;
-using Sabio.Web.Models.Responses;
-using Sabio.Web.Services;
-using Sabio.Web.Services.S3Service;
+using quotemule.Web.Domain;
+using quotemule.Web.Enums;
+using quotemule.Web.Exceptions;
+using quotemule.Web.Models;
+using quotemule.Web.Models.Requests;
+using quotemule.Web.Models.Requests.company;
+using quotemule.Web.Models.Requests.Uploads;
+using quotemule.Web.Models.Requests.User;
+using quotemule.Web.Models.Responses;
+using quotemule.Web.Services;
+using quotemule.Web.Services.S3Service;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -28,11 +28,11 @@ using RazorEngine;
 using RazorEngine.Configuration;
 using RazorEngine.Text;
 using SendGrid;
-using Sabio.Web.Models.ViewModels;
+using quotemule.Web.Models.ViewModels;
 using Microsoft.Practices.Unity;
-using Sabio.Web.Services.Interfaces;
+using quotemule.Web.Services.Interfaces;
 
-namespace Sabio.Web.Controllers.Api
+namespace quotemule.Web.Controllers.Api
 {
     [RoutePrefix("api/invite")]
     public class InviteApiController : ApiController

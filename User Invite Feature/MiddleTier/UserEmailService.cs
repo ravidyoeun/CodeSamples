@@ -1,8 +1,8 @@
 ﻿using Microsoft.Practices.Unity;
-using Sabio.Web.Models;
-using Sabio.Web.Models.Requests;
-using Sabio.Web.Models.Requests.User;
-using Sabio.Web.Services.Interfaces;
+using quotemule.Web.Models;
+using quotemule.Web.Models.Requests;
+using quotemule.Web.Models.Requests.User;
+using quotemule.Web.Services.Interfaces;
 using SendGrid;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Sabio.Web.Services
+namespace quotemule.Web.Services
 {
 	public class UserEmailService : BaseService, IUserEmailService
 	{
