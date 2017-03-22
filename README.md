@@ -12,4 +12,8 @@ The state machine wizard was implemented because we wanted to keep track of the 
 
 Companies could invite users who were not already registered in the database by typing in the user's email and asign a role. A dynamic email populated with the company's information would then be sent to the invited user directing them to sign up with a url. I used SendGrid API to allow email to be sent via HTTP and RazorEngine to parse the email's HTML template with dynamic values. 
 
+### User Profile
+
+The User profiles on Quotemule are unique because they help identify the roles of the users. I implemented DropZone on the profile pages to allow users to upload pictures connected to our Amazon s3 services. 
+
 
