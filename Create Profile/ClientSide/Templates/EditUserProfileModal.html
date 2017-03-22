@@ -1,0 +1,80 @@
+﻿        <!-- Modal Edit Form-->
+   
+
+ <div class="modal-header">
+
+        <h3><span class="fa fa-pencil-square-o"></span> Edit Profile</h3>
+
+    </div>
+    <div class="modal-body">
+        <form action="#" class="form-horizontal ">
+
+
+            <div class="panel-body block-full-width">
+                <div class="form-group">
+                    <label class="col-md-2 col-xs-5 control-label">First Name</label>
+                    <div class="col-md-9 col-xs-7">
+                        <input type="text" class="form-control current-firstname" ng-model="epmc.profile.firstName" id="input_firstname" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 col-xs-5 control-label">Last Name</label>
+                    <div class="col-md-9 col-xs-7">
+                        <input type="text" class="form-control current-lastname" ng-model="epmc.profile.lastName" id="input_lastname" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 col-xs-5 control-label">Phone</label>
+                    <div class="col-md-9 col-xs-7">
+                        <input type="text" class="form-control current-phone" ng-model="epmc.profile.phoneNumber" id="input_phone" />
+                    </div>
+                </div>
+            </div>
+
+        </form><br />
+
+
+        <div class="col-md-9 col-xs-7 block-full-width">
+            <div class="panel-body" id="drop-zone-body">
+                <div id="success-alert" class="alert alert-info fade in">
+                    <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    Drag &amp; drop upload with image preview
+                </div>
+                <div class="form-group" ng-cloak>
+                    <label class="control-label" id="numberpic"></label>
+                    <div class="controls text-center">
+                        <div id="dropzone">
+                            <form action="/api/media/upload" class="dropzone"
+                                  method="post"
+                                  enctype="multipart/form-data"
+                                  ng-dropzone dropzone="epmc.dropzone"
+                                  dropzone-config="epmc.dropzoneConfig"
+                                  id="companyLogoDropzone"
+                                  event-handlers="{ 'sending': epmc.onDropzoneSending, 'success': epmc.onDropzoneSuccess }">
+
+                                <div class="fallback">
+                                    <input name="file" type="file" multiple="" /><br />
+                                </div>
+
+                                <div class="dzc-message" data-mc-message>
+                                    <h1><i class="fa fa-arrow-circle-o-up"></i></h1>
+                                    <h2><strong>Drag and drop</strong> to upload file</h2>
+                                    <h3>(or click)</h3>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" id="saveBtn" ng-click="epmc.updateProfile()">Save</button>
+
+        <button type="button" class="btn btn-secondary" ng-click="epmc.cancel()" data-dismiss="modal">Close</button>
+    </div>
+
