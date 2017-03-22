@@ -1,37 +1,6 @@
-## Welcome to GitHub Pages
+## Welcome to Quotemule - Ravid Yoeun
 
-You can use the [editor on GitHub](https://github.com/ravidyoeun/CodeSamples/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Quotemule is an online portal that connects suppliers providing various goods and services to buyers in the construction industry from across USA. Government agencies in USA spend over $100 billion annually on various products and services. With Quotemule, suppliers can get a share of these contracts. Suppliers interested in doing business with public and private purchasing agencies create unique company profiles on Quotemule, and define their criteria. Quotemule, searches its database for local contracts and sends an SMS alert when bids have been accepted.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ravidyoeun/CodeSamples/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
